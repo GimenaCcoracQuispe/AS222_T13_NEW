@@ -235,19 +235,33 @@
 													class="form-check-label" for="flexSwitchCheckDefault"
 													id="labelSwitch">Activo</label>
 											</div>
+											<div class="col-sm-1">
+												<button type="button" class="btn btn-outline-primary mb-2"
+													id="btnDescargarCSV" name="btnDescargarCSV">Descargar
+													CSV</button>
+											</div>
+
+											<div class="col-sm-1">
+												<button type="button" class="btn btn-outline-primary mb-2"
+													id="btnDescargarPDF" name="btnDescargarPDF">Descargar
+													PDF</button>
+											</div>
+
+											<div class="col-sm-1">
+												<button type="button" class="btn btn-outline-primary mb-2"
+													id="btnDescargarExcel" name="btnDescargarExcel">Descargar
+													Excel</button>
+											</div>
 										</div>
 									</form>
 								</div>
 							</div>
 							<br />
-
 							<!-- Card de resultados -->
 							<div class="card" id="divResultado">
 								<div class="card-header">Resultado</div>
 								<div class="card-body" style="overflow-x: auto;">
 									<table class="table">
-										<caption>Aqui podemos encontrar los datos de los
-											Clientes</caption>
 										<thead>
 											<tr>
 												<th>Id</th>
@@ -260,6 +274,7 @@
 												<th>Estado</th>
 												<th>Editar</th>
 												<th>Eliminar</th>
+
 											</tr>
 										</thead>
 										<tbody id="detalleTabla">
@@ -267,11 +282,12 @@
 									</table>
 								</div>
 							</div>
+
 							<style>
-								.card {
-									width: 135%;
-								}
-								</style>
+.card {
+	width: 135%;
+}
+</style>
 							<!-- Formulario de edicion de registro -->
 							<div class="card" id="divRegistro" style="display: none;">
 								<div class="card-header" id="tituloRegistro">{accion}
@@ -382,20 +398,49 @@
 															});
 										</script>
 
+										<!-- Celular -->
 										<div class="row mb-3">
-											<label for="frmCellphone" class="col-sm-2 col-form-label">Numero
+											<label for="frmCellphone" class="col-sm-2 col-form-label">Número
 												de Celular</label>
 											<div class="col-sm-10">
 												<input type="tel" class="form-control" id="frmCellphone"
-													name="frmCellphone"
-													placeholder="Ingrese su numero de celular">
+													name="frmCellphone" required pattern="[0-9]{9}"
+													placeholder="Ingrese su número de celular">
 												<div class="valid-feedback">Todo bien</div>
+												<div class="invalid-feedback">Se requiere un número de
+													celular válido (9 dígitos numéricos).</div>
 											</div>
 										</div>
+										<script>
+											var frmCellphone = document
+													.getElementById("frmCellphone");
+
+											frmCellphone
+													.addEventListener(
+															"input",
+															function() {
+																var value = frmCellphone.value
+																		.replace(
+																				/\D/g,
+																				"");
+
+																if (value.length === 9) {
+																	frmCellphone.classList
+																			.remove("is-invalid");
+																	frmCellphone.classList
+																			.add("is-valid");
+																} else {
+																	frmCellphone.classList
+																			.remove("is-valid");
+																	frmCellphone.classList
+																			.add("is-invalid");
+																}
+															});
+										</script>
 
 										<!-- Celular Script -->
 										<script>
-											// ObtÃ©n el elemento del campo de entrada por su ID
+											// Obtén el elemento del campo de entrada por su ID
 											var frmCellphone = document
 													.getElementById("frmCellphone");
 
@@ -404,13 +449,13 @@
 													.addEventListener(
 															"input",
 															function() {
-																// Elimina cualquier carÃ¡cter que no sea un nÃºmero
+																// Elimina cualquier carácter que no sea un número
 																var value = frmCellphone.value
 																		.replace(
 																				/\D/g,
 																				"");
 
-																// Limita el valor a 9 dÃ­gitos
+																// Limita el valor a 9 dígitos
 																if (value.length > 9) {
 																	value = value
 																			.slice(
@@ -422,6 +467,7 @@
 																frmCellphone.value = value;
 															});
 										</script>
+
 
 
 
@@ -508,11 +554,6 @@
 																}
 															});
 										</script>
-
-
-
-
-
 										<div class="row mb-3">
 											<label for="frmDocument_number"
 												class="col-sm-2 col-form-label">Nº de documento</label>
@@ -520,41 +561,44 @@
 												<input type="text" class="form-control"
 													id="frmDocument_number" name="frmDocument_number" required>
 												<div class="valid-feedback">Todo bien</div>
-												<div class="invalid-feedback">Es necesario el Nº de
-													documento DNI (8 digitos)</div>
+												<div class="invalid-feedback" id="documentNumberFeedback"></div>
 											</div>
 										</div>
 
-
 										<script>
-											// Obtener el campo de entrada de nÃºmero de documento
 											var documentNumberInput = document
 													.getElementById('frmDocument_number');
+											var documentNumberFeedback = document
+													.getElementById('documentNumberFeedback');
 
-											// Agregar un event listener para el evento 'input'
 											documentNumberInput
 													.addEventListener(
 															'input',
 															function(event) {
-																// Obtener el tipo de documento seleccionado
 																var documentType = document
 																		.getElementById('frmDocument_type').value;
-																// Obtener el valor del nÃºmero de documento
 																var documentNumber = event.target.value;
 
-																// Validar la longitud del nÃºmero de documento segÃºn el tipo seleccionado
 																if ((documentType === 'DNI' && documentNumber.length === 8)
 																		|| (documentType === 'CNE' && documentNumber.length === 15)) {
 																	documentNumberInput.classList
 																			.remove('is-invalid');
 																	documentNumberInput.classList
 																			.add('is-valid');
+																	documentNumberFeedback.textContent = 'Todo bien';
 																} else {
 																	documentNumberInput.classList
 																			.remove('is-valid');
 																	documentNumberInput.classList
 																			.add('is-invalid');
-																	// Truncar el valor del nÃºmero de documento si supera la longitud permitida
+
+																	if (documentType === 'DNI') {
+																		documentNumberFeedback.textContent = 'Es necesario el Nº de documento DNI (8 dígitos)';
+																	} else if (documentType === 'CNE') {
+																		documentNumberFeedback.textContent = 'Es necesario el Nº de documento CNE (15 dígitos)';
+																	}
+
+																	// Truncar el valor del número de documento si supera la longitud permitida
 																	if (documentNumber.length > 8
 																			&& documentType === 'DNI') {
 																		documentNumberInput.value = documentNumber
@@ -571,7 +615,6 @@
 																}
 															});
 										</script>
-
 
 										<div class="row mb-3">
 											<label for="frmStatus" class="col-sm-2 col-form-label">Estado</label>
@@ -936,5 +979,103 @@
 					});
 		}
 	</script>
+	<!-- Agregar enlaces a las bibliotecas necesarias en el encabezado de tu HTML -->
+	<!-- Agrega estas líneas dentro de la etiqueta head de tu HTML -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+	<script>
+	function descargarCSV() {
+	    // Lógica para obtener tus datos del modelo y maestro
+	    obtenerDatos('A')
+	        .then(tusDatos => {
+	            if (tusDatos.length > 0) {
+	                // Convierte los datos a formato CSV utilizando Papa Parse
+	                var csv = Papa.unparse(tusDatos);
+
+	                // Código para descargar el archivo CSV
+	                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+	                var link = document.createElement('a');
+
+	                if (link.download !== undefined) {
+	                    var url = URL.createObjectURL(blob);
+	                    link.setAttribute('href', url);
+	                    link.setAttribute('download', 'export.csv');
+	                    link.style.visibility = 'hidden';
+	                    document.body.appendChild(link);
+	                    link.click();
+	                    document.body.removeChild(link);
+	                } else {
+	                    alert('Descarga no compatible en este navegador. Por favor, utiliza un navegador más reciente.');
+	                }
+	            } else {
+	                alert('No se encontraron datos para exportar.');
+	            }
+	        });
+	}
+
+
+	    /function obtenerDatos(status) {
+    // Preparar la URL
+    let url = "clientBuscar2?status=" + status;
+
+    // Realizar la llamada fetch
+    return fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error al obtener datos: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Filtrar los datos por status
+            return data.filter(item => item.status === status);
+        })
+        .catch(error => {
+            console.error('Error al obtener datos:', error);
+            return []; // Retornar un arreglo vacío en caso de error
+        });
+}
+
+	    
+	    
+		// Función para descargar en formato PDF
+		function descargarPDF() {
+			// Lógica para generar el contenido PDF
+			// Por ejemplo, podrías utilizar la biblioteca jsPDF para crear un PDF
+			// const pdf = new jsPDF();
+			// pdf.text('Hola, este es un PDF de ejemplo', 10, 10);
+			// pdf.save('ejemplo.pdf');
+
+			// Código para descargar el archivo PDF
+			// ...
+		}
+
+		// Función para descargar en formato Excel
+		function descargarExcel() {
+			// Lógica para generar el contenido Excel
+			// Por ejemplo, podrías utilizar la biblioteca SheetJS para crear un archivo Excel
+			// const workbook = XLSX.utils.book_new();
+			// const worksheet = XLSX.utils.json_to_sheet(tusDatos);
+			// XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+			// XLSX.writeFile(workbook, 'ejemplo.xlsx');
+
+			// Código para descargar el archivo Excel
+			// ...
+		}
+
+		// Event listeners para los botones de descarga
+		document.getElementById('btnDescargarCSV').addEventListener('click',
+				descargarCSV);
+		document.getElementById('btnDescargarPDF').addEventListener('click',
+				descargarPDF);
+		document.getElementById('btnDescargarExcel').addEventListener('click',
+				descargarExcel);
+	</script>
+
 </body>
 </html>

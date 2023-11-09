@@ -15,12 +15,12 @@ import service.spec.RowMapper;
 public class CrudClient implements CrudServiceSpec<client>, RowMapper<client>{
 	
 	// Definiendo cosas
-		private final String SQL_SELECT_BASE = "SELECT id id, names, lastname, cellphone, email, Type_document, number_document, status FROM customer ";
-		private final String SQL_INSERT = "INSERT INTO customer(names, lastname, cellphone, email, Type_document, number_document) VALUES(?,?,?,?,?,?)";
-		private final String SQL_UPDATE = "UPDATE customer SET names=?,lastname=?,cellphone = ?,email=?,Type_document=?,number_document=? WHERE id = ?";
+		private final String SQL_SELECT_BASE = "SELECT id id, names, lastname, cellphone, email, Type_document, number_document, status FROM client ";
+		private final String SQL_INSERT = "INSERT INTO client(names, lastname, cellphone, email, Type_document, number_document) VALUES(?,?,?,?,?,?)";
+		private final String SQL_UPDATE = "UPDATE client SET names=?,lastname=?,cellphone = ?,email=?,Type_document=?,number_document=? WHERE id = ?";
 		
-		private final String SQL_DELETE = "UPDATE customer SET status = 'I' WHERE id = ?";
-		private final String SQL_ACTIVE = "UPDATE customer SET status = 'A' WHERE id = ?";
+		private final String SQL_DELETE = "UPDATE client SET status = 'I' WHERE id = ?";
+		private final String SQL_ACTIVE = "UPDATE client SET status = 'A' WHERE id = ?";
 		
 		@Override
 		public List<client> getAll() {
@@ -242,10 +242,10 @@ public class CrudClient implements CrudServiceSpec<client>, RowMapper<client>{
 
 
 		        // Verificar el estado actual del estudiante
-		        sqlQuery = "SELECT status FROM student WHERE id = ?";
+		        sqlQuery = "SELECT status FROM client WHERE id = ?";
 
 		        // Verificar el estado actual del Cliente
-		        sqlQuery = "SELECT status FROM customer WHERE id = ?";
+		        sqlQuery = "SELECT status FROM client WHERE id = ?";
 		        pstm = cn.prepareStatement(sqlQuery);
 		        pstm.setString(1, id);
 		        ResultSet rs = pstm.executeQuery();
@@ -261,10 +261,10 @@ public class CrudClient implements CrudServiceSpec<client>, RowMapper<client>{
 		                newStatus = "A";
 		            }
 	            // Actualizar el estado del estudiante
-		            sqlQuery = "UPDATE student SET status = ? WHERE id = ?";
+		            sqlQuery = "UPDATE client SET status = ? WHERE id = ?";
 
 		            // Actualizar el estado del Cliente
-		            sqlQuery = "UPDATE customer SET status = ? WHERE id = ?";
+		            sqlQuery = "UPDATE client SET status = ? WHERE id = ?";
 		            pstm = cn.prepareStatement(sqlQuery);
 		            pstm.setString(1, newStatus);
 		            pstm.setString(2, id);
